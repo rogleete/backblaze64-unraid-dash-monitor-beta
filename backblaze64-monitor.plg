@@ -2,7 +2,7 @@
 <!DOCTYPE PLUGIN [
 <!ENTITY name        "backblaze64-monitor">
 <!ENTITY author      "rogman">
-<!ENTITY version     "2026.08.15-beta2">
+<!ENTITY version     "2026.08.15-beta3">
 <!ENTITY launch      "Utilities/backblaze64-monitor">
 <!ENTITY github      "rogleete/backblaze64-unraid-dash-monitor-beta">
 <!ENTITY pluginURL   "https://raw.githubusercontent.com/&github;/main/backblaze64-monitor.plg">
@@ -28,7 +28,8 @@ stable release.
 
 Requires a Backblaze64 container reachable from this Unraid server, and
 an API key generated from that container's own Web UI (API tab, Read
-permission). Configure address, port, and the key under
+permission; add Control permission too if you want the tile's
+Pause / Backup Now button). Configure address, port, and the key under
 Settings -> Utilities -> Backblaze64 Monitor after installing.
 -->
 
@@ -50,6 +51,18 @@ BETA build: dashboard tile for Backblaze64, now backed by its key-authenticated 
 
 <CHANGES>
 ### &version;
+- Added a Pause / Backup Now button to the collapsed tile's second row
+  (Item Sorting tab -- "Start/Stop Backup", off by default). Reads
+  "Pause" in light orange while a backup is running, "Backup Now" in
+  light green while paused or stopped; always sits at the far right of
+  that row regardless of what else is showing on it. Needs Control
+  permission on the API key (Connection tab now notes this) -- a key
+  without it still shows the button, and the rejected click's own error
+  shows in its place rather than hiding the button up front
+- Item Sorting tab: noted that Scan Progress (both here and in Expanded
+  Columns) only appears on the tile while a scan is actually running
+
+### 2026.08.15-beta2
 - Added four more API-backed fields, off by default: Health (reads
   "OK" in green, or the first reported issue in red), Uploads Today
   (success/failure counts for the day), First Backup (only appears
@@ -123,7 +136,7 @@ PACKAGE INSTALLATION
 -->
 <FILE Name="&pluginLOC;/&packageFile;" Run="upgradepkg --install-new">
 <URL>&packageURL;</URL>
-<SHA256>b94a527c34092c23b4a5c7fcdf039ee56a2ff7cf061299942b2fe38423a8b9b5</SHA256>
+<SHA256>89d07491bc8a3c97626ef1e52d3595ef0213a0b3d5be853e3de8522b2ca14c09</SHA256>
 </FILE>
 
 <!--
@@ -141,7 +154,8 @@ echo ""
 echo " Next step: go to Settings -> Utilities -> Backblaze64 Monitor"
 echo " and enter your Backblaze64 container's address and port, plus"
 echo " an API key generated from its own Web UI (API tab, Read"
-echo " permission), then check the Dashboard page."
+echo " permission -- add Control too for the Pause/Backup Now button),"
+echo " then check the Dashboard page."
 echo "----------------------------------------------------"
 echo ""
 </INLINE>
