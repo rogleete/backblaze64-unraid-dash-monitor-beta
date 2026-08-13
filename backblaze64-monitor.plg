@@ -2,7 +2,7 @@
 <!DOCTYPE PLUGIN [
 <!ENTITY name        "backblaze64-monitor">
 <!ENTITY author      "rogman">
-<!ENTITY version     "2026.08.15-beta1">
+<!ENTITY version     "2026.08.15-beta2">
 <!ENTITY launch      "Utilities/backblaze64-monitor">
 <!ENTITY github      "rogleete/backblaze64-unraid-dash-monitor-beta">
 <!ENTITY pluginURL   "https://raw.githubusercontent.com/&github;/main/backblaze64-monitor.plg">
@@ -50,6 +50,19 @@ BETA build: dashboard tile for Backblaze64, now backed by its key-authenticated 
 
 <CHANGES>
 ### &version;
+- Added four more API-backed fields, off by default: Health (reads
+  "OK" in green, or the first reported issue in red), Uploads Today
+  (success/failure counts for the day), First Backup (only appears
+  while a first pass is still running, in "Day X" form -- gone
+  entirely once it finishes), and Scan Progress (only appears while a
+  file-list scan is running, with a progress bar -- gone entirely
+  otherwise)
+- Added a second, fixed-order row to the collapsed tile summary --
+  Scan Progress and Backup Total as compact progress bars. Unlike the
+  row above, these two don't drag-reorder, only show/hide; the row is
+  left out of the tile entirely when neither has anything to show
+
+### 2026.08.15-beta1
 - Switched the data source from scraping the container's built-in
   /monitor/ page to its new key-authenticated /api/v1/status endpoint.
   Works whether the container's own Web Authentication is on or off,
@@ -110,7 +123,7 @@ PACKAGE INSTALLATION
 -->
 <FILE Name="&pluginLOC;/&packageFile;" Run="upgradepkg --install-new">
 <URL>&packageURL;</URL>
-<SHA256>78b461c7beb6e9520ce8b9139f6f4506c0fe1f9a7c3f6769bf0ef80443bbeba7</SHA256>
+<SHA256>b94a527c34092c23b4a5c7fcdf039ee56a2ff7cf061299942b2fe38423a8b9b5</SHA256>
 </FILE>
 
 <!--
