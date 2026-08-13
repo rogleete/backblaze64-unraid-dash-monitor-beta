@@ -1,0 +1,172 @@
+<?xml version='1.0' standalone='yes'?>
+<!DOCTYPE PLUGIN [
+<!ENTITY name        "backblaze64-monitor">
+<!ENTITY author      "rogman">
+<!ENTITY version     "2026.08.15-beta1">
+<!ENTITY launch      "Utilities/backblaze64-monitor">
+<!ENTITY github      "rogleete/backblaze64-unraid-dash-monitor-beta">
+<!ENTITY pluginURL   "https://raw.githubusercontent.com/&github;/main/backblaze64-monitor.plg">
+<!ENTITY packageVER  "&version;">
+<!ENTITY packageName "backblaze64-monitor-&packageVER;">
+<!ENTITY packageFile "&packageName;.txz">
+<!ENTITY packageURL  "https://github.com/&github;/releases/download/&version;/&packageFile;">
+<!ENTITY pluginLOC   "/boot/config/plugins/&name;">
+<!ENTITY emhttpLOC   "/usr/local/emhttp/plugins/&name;">
+]>
+
+<!--
+Backblaze64 Monitor (BETA): an Unraid dashboard tile for Backblaze64
+(iamfoz/backblaze-64-personal-wine-container). This beta build talks to
+the container's key-authenticated /api/v1/status endpoint instead of
+scraping the built-in web monitor, so it works whether the container's
+own Web Authentication is on or off.
+
+Once this is working as intended it will be folded back into the
+stable repo (rogleete/backblaze64-unraid-dash-monitor); until then it's
+tracked separately here so beta testing doesn't touch anyone on the
+stable release.
+
+Requires a Backblaze64 container reachable from this Unraid server, and
+an API key generated from that container's own Web UI (API tab, Read
+permission). Configure address, port, and the key under
+Settings -> Utilities -> Backblaze64 Monitor after installing.
+-->
+
+<PLUGIN  name="&name;"
+         Title="Backblaze64 Monitor (Beta)"
+         author="&author;"
+         version="&version;"
+         launch="&launch;"
+         pluginURL="&pluginURL;"
+         icon="cloud-upload"
+         min="6.9.0"
+         project="https://github.com/&github;"
+         readme="https://github.com/&github;#readme"
+>
+
+<DESCRIPTION>
+BETA build: dashboard tile for Backblaze64, now backed by its key-authenticated /api/v1/status API instead of the web monitor page. Shows live upload speed, backup progress, file counts, failures, memory usage, and connection latency on your Unraid Dashboard, with a drag-and-drop settings page to choose which fields appear and where.
+</DESCRIPTION>
+
+<CHANGES>
+### &version;
+- Switched the data source from scraping the container's built-in
+  /monitor/ page to its new key-authenticated /api/v1/status endpoint.
+  Works whether the container's own Web Authentication is on or off,
+  and no longer depends on that page's internal markup
+- Connection tab: replaced Secure Connection with an API Key field
+  (generate one from Backblaze64's own Web UI -> API tab -> Read
+  permission). Scheme (http/https) is now detected automatically
+  instead of asked for
+- Removed the Data Points tab -- each field on the Item Sorting tab's
+  Expanded Columns now carries its own show/hide checkbox instead,
+  alongside the existing drag-to-reorder handle
+- Added four new fields, sourced from the API and off by default:
+  Last Backup (days since), Total Files, Completed Files, and Failed
+  Files (shown in red once non-zero; sourced from the API's
+  skipped_files count -- files the client has given up on entirely)
+- Added Failed Files as an option for the tile's collapsed summary line
+- Tile now reads "Please add API key to plugin settings" when no key
+  is configured, and "Error with API access, check plugin settings and
+  key access" if the API can't be reached or the key is rejected
+
+### 2026.08.14 (carried over from the stable plugin this beta forked from)
+- Fixed the live preview being unreadable (dark card background with
+  black text, and a white-on-white "Live Preview" label)
+
+### 2026.08.13
+- Added a "Collapsed Tile Data" section on the Item Sorting tab
+- "Backup Complete" in green instead of "0 files left" at 0 remaining
+- Collapsed-line ETA reads "ETA 2d 3h" instead of "Backup ETA 2d 3h"
+- Added the live preview above the settings tabs
+
+### 2026.08.12
+- Renamed shared PHP functions to a plugin-specific prefix so this
+  plugin and the original Backblaze64 Dash Monitor plugin can run
+  side by side
+- Hardened the tile against unexpected/missing fields in a response
+
+### 2026.08.11
+- Initial release
+</CHANGES>
+
+<!--
+===========================================
+PRE-INSTALL
+===========================================
+-->
+<FILE Run="/bin/bash">
+<INLINE>
+# Remove old package versions, keep only the one being installed
+rm -f $(ls &pluginLOC;/&name;*.txz 2>/dev/null | grep -v '&packageVER;')
+mkdir -p &pluginLOC;
+</INLINE>
+</FILE>
+
+<!--
+===========================================
+PACKAGE INSTALLATION
+===========================================
+-->
+<FILE Name="&pluginLOC;/&packageFile;" Run="upgradepkg --install-new">
+<URL>&packageURL;</URL>
+<SHA256>78b461c7beb6e9520ce8b9139f6f4506c0fe1f9a7c3f6769bf0ef80443bbeba7</SHA256>
+</FILE>
+
+<!--
+===========================================
+POST-INSTALL
+===========================================
+-->
+<FILE Run="/bin/bash">
+<INLINE>
+echo ""
+echo "----------------------------------------------------"
+echo " Backblaze64 Monitor (BETA) has been installed."
+echo " Version: &version;"
+echo ""
+echo " Next step: go to Settings -> Utilities -> Backblaze64 Monitor"
+echo " and enter your Backblaze64 container's address and port, plus"
+echo " an API key generated from its own Web UI (API tab, Read"
+echo " permission), then check the Dashboard page."
+echo "----------------------------------------------------"
+echo ""
+</INLINE>
+</FILE>
+
+<!--
+===========================================
+UPDATE
+===========================================
+-->
+<FILE Run="/bin/bash" Method="update">
+<INLINE>
+rm -rf &emhttpLOC;
+</INLINE>
+</FILE>
+
+<!--
+===========================================
+REMOVE
+===========================================
+-->
+<FILE Run="/bin/bash" Method="remove">
+<INLINE>
+removepkg &packageName; 2>/dev/null
+
+# Keep the user's saved settings (server address, key, toggles) on the
+# flash drive in case they reinstall later. Uncomment to wipe them too:
+# rm -rf &pluginLOC;
+
+echo ""
+echo "----------------------------------------------------"
+echo " Backblaze64 Monitor (BETA) has been removed."
+echo " Your settings were kept at &pluginLOC; in case you"
+echo " reinstall -- delete that folder manually if you"
+echo " don't want them kept."
+echo "----------------------------------------------------"
+echo ""
+</INLINE>
+</FILE>
+
+</PLUGIN>
