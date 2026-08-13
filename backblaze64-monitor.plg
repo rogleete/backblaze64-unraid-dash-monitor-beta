@@ -2,7 +2,7 @@
 <!DOCTYPE PLUGIN [
 <!ENTITY name        "backblaze64-monitor">
 <!ENTITY author      "rogman">
-<!ENTITY version     "2026.08.15-beta4">
+<!ENTITY version     "2026.08.15-beta5">
 <!ENTITY launch      "Utilities/backblaze64-monitor">
 <!ENTITY github      "rogleete/backblaze64-unraid-dash-monitor-beta">
 <!ENTITY pluginURL   "https://raw.githubusercontent.com/&github;/main/backblaze64-monitor.plg">
@@ -28,8 +28,7 @@ stable release.
 
 Requires a Backblaze64 container reachable from this Unraid server, and
 an API key generated from that container's own Web UI (API tab, Read
-permission; add Control permission too if you want the tile's
-Pause / Backup Now button). Configure address, port, and the key under
+permission). Configure address, port, and the key under
 Settings -> Utilities -> Backblaze64 Monitor after installing.
 -->
 
@@ -51,6 +50,23 @@ BETA build: dashboard tile for Backblaze64, now backed by its key-authenticated 
 
 <CHANGES>
 ### &version;
+- Removed the Pause / Backup Now button added in beta3/beta4 -- it
+  wasn't completing requests reliably (control.php returning a 200
+  with an empty body rather than the expected JSON), and rather than
+  ship that half-working, this reverts back to beta2's plugin with only
+  the scan-progress documentation note kept. The Connection tab's API
+  Key description and the post-install message are back to beta2's
+  wording too, since neither the button nor the Control-permission note
+  that went with it apply any more. May revisit once the underlying
+  issue is tracked down
+- Kept: the Item Sorting tab now notes that Scan Progress (both in
+  Expanded Columns and the second collapsed row) only appears on the
+  tile while a scan is actually running
+- Also cleaned up a stray, incorrectly-named empty directory
+  (`{css,js,include}`) that had been shipping inside the package since
+  an early build
+
+### 2026.08.15-beta4
 - A rejected Pause/Backup Now click (wrong permission, nothing running
   to pause, client tool unavailable, etc.) now shows the API's own
   reason as a small red line under the tile, instead of the button just
@@ -143,7 +159,7 @@ PACKAGE INSTALLATION
 -->
 <FILE Name="&pluginLOC;/&packageFile;" Run="upgradepkg --install-new">
 <URL>&packageURL;</URL>
-<SHA256>ad4db6b7c1771813f24278e1e2cfeb2340b1c5cb9754623ddf52726fd99b4263</SHA256>
+<SHA256>11823bff328846786208d62220311c90f45206a96427e6498fc4f9554aeeb65a</SHA256>
 </FILE>
 
 <!--
@@ -161,8 +177,7 @@ echo ""
 echo " Next step: go to Settings -> Utilities -> Backblaze64 Monitor"
 echo " and enter your Backblaze64 container's address and port, plus"
 echo " an API key generated from its own Web UI (API tab, Read"
-echo " permission -- add Control too for the Pause/Backup Now button),"
-echo " then check the Dashboard page."
+echo " permission), then check the Dashboard page."
 echo "----------------------------------------------------"
 echo ""
 </INLINE>
