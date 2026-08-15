@@ -2,7 +2,7 @@
 <!DOCTYPE PLUGIN [
 <!ENTITY name        "backblaze64-monitor">
 <!ENTITY author      "rogman">
-<!ENTITY version     "2026.08.15-beta5">
+<!ENTITY version     "2026.08.15-beta6">
 <!ENTITY launch      "Utilities/backblaze64-monitor">
 <!ENTITY github      "rogleete/backblaze64-unraid-dash-monitor-beta">
 <!ENTITY pluginURL   "https://raw.githubusercontent.com/&github;/main/backblaze64-monitor.plg">
@@ -50,6 +50,17 @@ BETA build: dashboard tile for Backblaze64, now backed by its key-authenticated 
 
 <CHANGES>
 ### &version;
+- Added a Themes tab to the plugin's settings. Pick from Default plus
+  five new color themes (Ocean, Grape, Gold, Rose, Slate) laid out as a
+  two-column grid of selectable cells, each with its own live preview
+  built from the tile's real markup so it matches exactly. Only the
+  tile's "good"/primary progress-bar and value color changes between
+  themes -- orange/red warning colors stay the same in every theme, so
+  a real problem never gets mistaken for a style choice
+- The Live Preview above the tabs now reflects the selected theme
+  immediately, no Apply needed first
+
+### 2026.08.15-beta5
 - Removed the Pause / Backup Now button added in beta3/beta4 -- it
   wasn't completing requests reliably (control.php returning a 200
   with an empty body rather than the expected JSON), and rather than
@@ -159,7 +170,7 @@ PACKAGE INSTALLATION
 -->
 <FILE Name="&pluginLOC;/&packageFile;" Run="upgradepkg --install-new">
 <URL>&packageURL;</URL>
-<SHA256>11823bff328846786208d62220311c90f45206a96427e6498fc4f9554aeeb65a</SHA256>
+<SHA256>2431ecf63c2c3ef4f65e95f3106501a9603ded222bfa7bf96c08ca447d02f5df</SHA256>
 </FILE>
 
 <!--
