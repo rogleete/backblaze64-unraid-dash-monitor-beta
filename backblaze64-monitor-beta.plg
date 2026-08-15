@@ -2,7 +2,7 @@
 <!DOCTYPE PLUGIN [
 <!ENTITY name        "backblaze64-monitor-beta">
 <!ENTITY author      "rogman">
-<!ENTITY version     "2026.08.15-beta9">
+<!ENTITY version     "2026.08.15-beta10">
 <!ENTITY launch      "Utilities/backblaze64-monitor-beta">
 <!ENTITY github      "rogleete/backblaze64-unraid-dash-monitor-beta">
 <!ENTITY pluginURL   "https://raw.githubusercontent.com/&github;/main/backblaze64-monitor-beta.plg">
@@ -50,6 +50,16 @@ BETA build: dashboard tile for Backblaze64, now backed by its key-authenticated 
 
 <CHANGES>
 ### &version;
+- Updated the default field selection and order on a fresh install (or
+  after "Reset to Defaults") to match a real-world tuned layout: State
+  moved out of the collapsed line's neighboring Column 2 slot and out
+  of Column 2 entirely (off by default), Last Backup/Total Files/
+  Completed Files/Failed Files/Health/First Backup switched on by
+  default, Uploads Today stays off, and both Scan Progress and Backup
+  Total are on by default in the second collapsed row. Column 1/Column
+  2 order updated to match
+
+### 2026.08.15-beta9
 - Color Theme tab: replaced the two sample-value demo rows (Memory,
   Backup Total) with a single full-width legend bar per theme, hard-
   stopped at the real color thresholds (bad under 34%, elevated 34-66%,
@@ -210,7 +220,7 @@ PACKAGE INSTALLATION
 -->
 <FILE Name="&pluginLOC;/&packageFile;" Run="upgradepkg --install-new">
 <URL>&packageURL;</URL>
-<SHA256>723dfa180fd10550c0be38ae93af1efd53879b0b09de3c3362ee23af452a9c1f</SHA256>
+<SHA256>cb7f09902c85fd3cc2296a1db6a0fd65951aa2650f85934b3ec22665307434f5</SHA256>
 </FILE>
 
 <!--
