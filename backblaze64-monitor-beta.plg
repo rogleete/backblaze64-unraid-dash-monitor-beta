@@ -2,7 +2,7 @@
 <!DOCTYPE PLUGIN [
 <!ENTITY name        "backblaze64-monitor-beta">
 <!ENTITY author      "rogman">
-<!ENTITY version     "2026.08.15-beta11">
+<!ENTITY version     "2026.08.15-beta12">
 <!ENTITY launch      "Utilities/backblaze64-monitor-beta">
 <!ENTITY github      "rogleete/backblaze64-unraid-dash-monitor-beta">
 <!ENTITY pluginURL   "https://raw.githubusercontent.com/&github;/main/backblaze64-monitor-beta.plg">
@@ -50,6 +50,25 @@ BETA build: dashboard tile for Backblaze64, now backed by its key-authenticated 
 
 <CHANGES>
 ### &version;
+- Added a fourth settings tab, "Style Theme": pick how the tile's
+  expanded field list is laid out, independent of Color Theme (which
+  only changes colors). Default plus 7 new layouts -- Rings (circular
+  gauges for anything with a percentage), Compact (dense single-column
+  list with a dotted leader line), Cards (bordered stat cards with a
+  thin accent bar), Segmented (a retro block/segment meter instead of a
+  smooth bar), Spotlight (Upload Rate as a big hero stat, everything
+  else in a tight grid below), Minimal (pure typography, no boxes or
+  bars at all), and Icons (icon + label/value rows with a thin inline
+  bar). Each of the 8 cells previews the style's own real renderer fed
+  sample data, not a mockup, arranged 2 columns x 4 rows with Default
+  first. Whichever Color Theme is selected still applies on top of
+  whichever style is chosen -- the two are independent settings
+- Because Style Theme changes actual HTML structure rather than a CSS
+  variable, its live preview goes through the same server round trip
+  Item Sorting already uses (Color Theme stays instant/client-side,
+  since only its colors need to change)
+
+### 2026.08.15-beta11
 - Fixed the real cause of the blank/white Dashboard when both this
   beta and the stable plugin are installed together: both defined an
   identical set of global PHP function names (bbmon_normalize(),
@@ -239,7 +258,7 @@ PACKAGE INSTALLATION
 -->
 <FILE Name="&pluginLOC;/&packageFile;" Run="upgradepkg --install-new">
 <URL>&packageURL;</URL>
-<SHA256>e6fed37c09539811e3157ba749ef4b38166441367bf96827cfb507358e4fb315</SHA256>
+<SHA256>f8f7899423e3bfcc00a67632662dcc0d06f987b64858ba4a3955eff24c137f93</SHA256>
 </FILE>
 
 <!--
