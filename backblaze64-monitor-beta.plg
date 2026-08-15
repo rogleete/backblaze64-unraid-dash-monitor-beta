@@ -2,7 +2,7 @@
 <!DOCTYPE PLUGIN [
 <!ENTITY name        "backblaze64-monitor-beta">
 <!ENTITY author      "rogman">
-<!ENTITY version     "2026.08.15-beta10">
+<!ENTITY version     "2026.08.15-beta11">
 <!ENTITY launch      "Utilities/backblaze64-monitor-beta">
 <!ENTITY github      "rogleete/backblaze64-unraid-dash-monitor-beta">
 <!ENTITY pluginURL   "https://raw.githubusercontent.com/&github;/main/backblaze64-monitor-beta.plg">
@@ -50,6 +50,25 @@ BETA build: dashboard tile for Backblaze64, now backed by its key-authenticated 
 
 <CHANGES>
 ### &version;
+- Fixed the real cause of the blank/white Dashboard when both this
+  beta and the stable plugin are installed together: both defined an
+  identical set of global PHP function names (bbmon_normalize(),
+  bbmon_fetch(), bbmon_render_body(), etc. -- the historical beta1
+  changelog note about a "plugin-specific prefix" turned out to
+  predate a later fork, so the prefix wasn't actually unique between
+  the two). Unraid loads every enabled dashboard tile's PHP into one
+  shared request to build the page, so having both plugins define the
+  same function names threw an uncaught "Cannot redeclare function"
+  fatal error partway through that build -- with error display off,
+  nothing was printed and nothing reached the webserver's own log, so
+  the page just came back empty below the nav bar with a normal-
+  looking 200 response. Every one of this plugin's global functions is
+  now prefixed bbmonbeta_ instead of bbmon_, verified by loading both
+  plugins' PHP in a single request and confirming no redeclaration
+  occurs regardless of what the stable plugin's own internals look
+  like
+
+### 2026.08.15-beta10
 - Updated the default field selection and order on a fresh install (or
   after "Reset to Defaults") to match a real-world tuned layout: State
   moved out of the collapsed line's neighboring Column 2 slot and out
@@ -220,7 +239,7 @@ PACKAGE INSTALLATION
 -->
 <FILE Name="&pluginLOC;/&packageFile;" Run="upgradepkg --install-new">
 <URL>&packageURL;</URL>
-<SHA256>cb7f09902c85fd3cc2296a1db6a0fd65951aa2650f85934b3ec22665307434f5</SHA256>
+<SHA256>e6fed37c09539811e3157ba749ef4b38166441367bf96827cfb507358e4fb315</SHA256>
 </FILE>
 
 <!--
