@@ -2,7 +2,7 @@
 <!DOCTYPE PLUGIN [
 <!ENTITY name        "backblaze64-monitor-beta">
 <!ENTITY author      "rogman">
-<!ENTITY version     "2026.08.15-beta20">
+<!ENTITY version     "2026.08.15-beta21">
 <!ENTITY launch      "Utilities/backblaze64-monitor-beta">
 <!ENTITY github      "rogleete/backblaze64-unraid-dash-monitor-beta">
 <!ENTITY pluginURL   "https://raw.githubusercontent.com/&github;/main/backblaze64-monitor-beta.plg">
@@ -50,6 +50,15 @@ BETA build: dashboard tile for Backblaze64, now backed by its key-authenticated 
 
 <CHANGES>
 ### &version;
+- Fixed the Current File filename rendering at the wrong (larger) font
+  size, a direct side effect of beta20's fix: pulling it out to be a
+  sibling block after .bbmon-row2 (rather than nested inside it) meant
+  it stopped inheriting the 12px font-size set on that container, and
+  fell back to a larger default. Set explicitly on its own now, so it
+  doesn't depend on inheriting from wherever it happens to sit in the
+  DOM
+
+### 2026.08.15-beta20
 - Found the actual root cause of the Current File spacing on a real
   Dashboard tile, confirmed via getBoundingClientRect() measurements:
   a 4px margin-top (confirmed applied via getComputedStyle) was
@@ -361,7 +370,7 @@ PACKAGE INSTALLATION
 -->
 <FILE Name="&pluginLOC;/&packageFile;" Run="upgradepkg --install-new">
 <URL>&packageURL;</URL>
-<SHA256>239ef60a0aa8599c4cb6b54ec8195972258e10ae4bdc64e1961242ad1ca6b549</SHA256>
+<SHA256>b601419bb3f1d06833cac1a9c48af291ac9467e0906057827764f2e4d99f9313</SHA256>
 </FILE>
 
 <!--
