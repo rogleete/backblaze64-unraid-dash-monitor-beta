@@ -2,7 +2,7 @@
 <!DOCTYPE PLUGIN [
 <!ENTITY name        "backblaze64-monitor-beta">
 <!ENTITY author      "rogman">
-<!ENTITY version     "2026.08.15-beta12">
+<!ENTITY version     "2026.08.15-beta13">
 <!ENTITY launch      "Utilities/backblaze64-monitor-beta">
 <!ENTITY github      "rogleete/backblaze64-unraid-dash-monitor-beta">
 <!ENTITY pluginURL   "https://raw.githubusercontent.com/&github;/main/backblaze64-monitor-beta.plg">
@@ -50,6 +50,21 @@ BETA build: dashboard tile for Backblaze64, now backed by its key-authenticated 
 
 <CHANGES>
 ### &version;
+- Added a "Current File" checkbox on the Item Sorting tab, below Scan
+  Progress / Backup Total. When checked, shows the file currently being
+  backed up on its own line below those two -- a small progress bar
+  (same size as Scan Progress's) first, then the filename, no "Current
+  File:" label. Long filenames wrap to additional lines rather than
+  overflowing or truncating. The filename text uses the exact same
+  font-size and styling as "Scanning:"/"Backup:" (reuses the same CSS
+  rule) for visual consistency
+- Requires the API key on the Connection tab to have read:files
+  permission, not just the default read scope -- noted directly next to
+  the new checkbox. Without it, checking the box shows nothing rather
+  than an error, the same graceful no-op Scan Progress already uses
+  when no scan is running
+
+### 2026.08.15-beta12
 - Added a fourth settings tab, "Style Theme": pick how the tile's
   expanded field list is laid out, independent of Color Theme (which
   only changes colors). Default plus 7 new layouts -- Rings (circular
@@ -258,7 +273,7 @@ PACKAGE INSTALLATION
 -->
 <FILE Name="&pluginLOC;/&packageFile;" Run="upgradepkg --install-new">
 <URL>&packageURL;</URL>
-<SHA256>f8f7899423e3bfcc00a67632662dcc0d06f987b64858ba4a3955eff24c137f93</SHA256>
+<SHA256>26edc3eeb4696ec9111ba5f5f8586c47adea384611a1623b45ce2153b22a637f</SHA256>
 </FILE>
 
 <!--
