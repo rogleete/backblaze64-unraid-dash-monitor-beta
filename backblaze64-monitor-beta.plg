@@ -2,7 +2,7 @@
 <!DOCTYPE PLUGIN [
 <!ENTITY name        "backblaze64-monitor-beta">
 <!ENTITY author      "rogman">
-<!ENTITY version     "2026.08.15-beta15">
+<!ENTITY version     "2026.08.15-beta16">
 <!ENTITY launch      "Utilities/backblaze64-monitor-beta">
 <!ENTITY github      "rogleete/backblaze64-unraid-dash-monitor-beta">
 <!ENTITY pluginURL   "https://raw.githubusercontent.com/&github;/main/backblaze64-monitor-beta.plg">
@@ -50,6 +50,15 @@ BETA build: dashboard tile for Backblaze64, now backed by its key-authenticated 
 
 <CHANGES>
 ### &version;
+- Fixed the Current File line's spacing again -- splitting row-gap
+  from column-gap in beta15 wasn't reliable (flex "gap" support varies
+  across browser versions, and the result was actually worse for some).
+  Replaced it with a plain, explicit margin-top instead, set to match
+  the exact same ~4px rhythm already used between the collapsed summary
+  line and the row below it, so the spacing is deterministic rather
+  than depending on flexbox gap behavior at all
+
+### 2026.08.15-beta15
 - Fixed excess vertical spacing before the Current File line -- it
   looked like two blank lines between "Scanning/Backup" and the
   filename below. The row2 container used a single "gap" value that
@@ -296,7 +305,7 @@ PACKAGE INSTALLATION
 -->
 <FILE Name="&pluginLOC;/&packageFile;" Run="upgradepkg --install-new">
 <URL>&packageURL;</URL>
-<SHA256>5bc6dd4bf180e11f620048d440c7b6898031fe839099e951039b733223d481fc</SHA256>
+<SHA256>7e8bd33a3dbb7f3e14e0b8e15d796e7c612a24ffbbadfe9a5f6c2a79d1400c1f</SHA256>
 </FILE>
 
 <!--
