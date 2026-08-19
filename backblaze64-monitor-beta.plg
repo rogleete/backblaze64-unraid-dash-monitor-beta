@@ -2,7 +2,7 @@
 <!DOCTYPE PLUGIN [
 <!ENTITY name        "backblaze64-monitor-beta">
 <!ENTITY author      "rogman">
-<!ENTITY version     "2026.08.15-beta16">
+<!ENTITY version     "2026.08.15-beta18">
 <!ENTITY launch      "Utilities/backblaze64-monitor-beta">
 <!ENTITY github      "rogleete/backblaze64-unraid-dash-monitor-beta">
 <!ENTITY pluginURL   "https://raw.githubusercontent.com/&github;/main/backblaze64-monitor-beta.plg">
@@ -50,6 +50,24 @@ BETA build: dashboard tile for Backblaze64, now backed by its key-authenticated 
 
 <CHANGES>
 ### &version;
+- Tightened the gap above the Current File line from 4px to 2px.
+  Measured via getBoundingClientRect() in beta17: at 4px it was
+  pixel-identical to the row1->row2 gap, but still visually read as
+  larger -- the wider bar and long filename there carry more visual
+  weight than the compact "Backup: 96%" line above, so an equal gap
+  reads as bigger by contrast. 2px compensates for that
+
+### 2026.08.15-beta17
+- Current File now only shows while the API reports an actual active-
+  transfer phase (Uploading or Finishing, the two values confirmed
+  against real API responses) rather than just checking that a
+  filename is present. Some APIs leave the last-known filename in
+  place even while idle or paused and only change the phase to say so
+  -- if that's the case here, checking file alone could have kept
+  showing a stale filename forever instead of hiding, the way Scan
+  Progress correctly hides when no scan is running
+
+### 2026.08.15-beta16
 - Fixed the Current File line's spacing again -- splitting row-gap
   from column-gap in beta15 wasn't reliable (flex "gap" support varies
   across browser versions, and the result was actually worse for some).
@@ -305,7 +323,7 @@ PACKAGE INSTALLATION
 -->
 <FILE Name="&pluginLOC;/&packageFile;" Run="upgradepkg --install-new">
 <URL>&packageURL;</URL>
-<SHA256>7e8bd33a3dbb7f3e14e0b8e15d796e7c612a24ffbbadfe9a5f6c2a79d1400c1f</SHA256>
+<SHA256>59bbe5df9a4afcd215d08a1f814b7e5a481a7f6b9e847540e93ff1d7bd8d51ad</SHA256>
 </FILE>
 
 <!--
