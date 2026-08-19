@@ -2,7 +2,7 @@
 <!DOCTYPE PLUGIN [
 <!ENTITY name        "backblaze64-monitor-beta">
 <!ENTITY author      "rogman">
-<!ENTITY version     "2026.08.15-beta13">
+<!ENTITY version     "2026.08.15-beta14">
 <!ENTITY launch      "Utilities/backblaze64-monitor-beta">
 <!ENTITY github      "rogleete/backblaze64-unraid-dash-monitor-beta">
 <!ENTITY pluginURL   "https://raw.githubusercontent.com/&github;/main/backblaze64-monitor-beta.plg">
@@ -50,6 +50,20 @@ BETA build: dashboard tile for Backblaze64, now backed by its key-authenticated 
 
 <CHANGES>
 ### &version;
+- Fixed Current File showing nothing even with a file actively
+  transferring and read:files enabled: the field mapping in beta13 was
+  a guess at an API shape that turned out not to exist. Checked against
+  a real API response, the filename actually lives at
+  activity.file, and there's no ready-made per-file percentage (the
+  in_flight[] entries are per-upload-thread, not per-file, since a
+  single large file uploads via many parallel part-uploads) -- the
+  correct percentage comes from files.chunk_map, which names the same
+  file as activity.file and lists every chunk sent so far out of its
+  total. Verified against two real API responses with known chunk
+  counts (39/53 and 17/53 sent) and confirmed the computed percentage
+  matches exactly
+
+### 2026.08.15-beta13
 - Added a "Current File" checkbox on the Item Sorting tab, below Scan
   Progress / Backup Total. When checked, shows the file currently being
   backed up on its own line below those two -- a small progress bar
@@ -273,7 +287,7 @@ PACKAGE INSTALLATION
 -->
 <FILE Name="&pluginLOC;/&packageFile;" Run="upgradepkg --install-new">
 <URL>&packageURL;</URL>
-<SHA256>26edc3eeb4696ec9111ba5f5f8586c47adea384611a1623b45ce2153b22a637f</SHA256>
+<SHA256>4f442c661ded13f5d7080c85af9019611347a1828d61555e3f6201dca454a92a</SHA256>
 </FILE>
 
 <!--
