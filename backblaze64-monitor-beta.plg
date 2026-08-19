@@ -2,7 +2,7 @@
 <!DOCTYPE PLUGIN [
 <!ENTITY name        "backblaze64-monitor-beta">
 <!ENTITY author      "rogman">
-<!ENTITY version     "2026.08.15-beta18">
+<!ENTITY version     "2026.08.15-beta19">
 <!ENTITY launch      "Utilities/backblaze64-monitor-beta">
 <!ENTITY github      "rogleete/backblaze64-unraid-dash-monitor-beta">
 <!ENTITY pluginURL   "https://raw.githubusercontent.com/&github;/main/backblaze64-monitor-beta.plg">
@@ -50,6 +50,27 @@ BETA build: dashboard tile for Backblaze64, now backed by its key-authenticated 
 
 <CHANGES>
 ### &version;
+- Fixed the real causes of the Current File spacing/alignment issues,
+  found after comparing the Dashboard tile against the Settings live
+  preview (which looked correct while the Dashboard tile didn't -- that
+  mismatch was the key clue):
+  - The Dashboard tile's stylesheet is loaded through a second, separate
+    URL that Unraid's own register_dashboard_tile() uses (independent
+    of the versioned stylesheet link already in the tile's own markup),
+    and that second URL had no cache-busting version string. Every CSS
+    fix since beta15 was reaching the Settings page immediately but
+    likely sitting stale on the Dashboard tab until a hard refresh --
+    now versioned the same way
+  - The progress bar wasn't vertically centered against the filename
+    text (align-items:flex-start pinned it to the top of the line
+    instead of matching the centered alignment every other row2 item
+    uses), which was the actual source of the line looking uneven --
+    not the margin value. Switched to align-items:center to match
+    Scanning/Backup, and reverted the margin back to 4px (pixel-
+    verified equal to the row1->row2 gap) since beta18's 2px was
+    compensating for the alignment bug rather than a real gap problem
+
+### 2026.08.15-beta18
 - Tightened the gap above the Current File line from 4px to 2px.
   Measured via getBoundingClientRect() in beta17: at 4px it was
   pixel-identical to the row1->row2 gap, but still visually read as
@@ -323,7 +344,7 @@ PACKAGE INSTALLATION
 -->
 <FILE Name="&pluginLOC;/&packageFile;" Run="upgradepkg --install-new">
 <URL>&packageURL;</URL>
-<SHA256>59bbe5df9a4afcd215d08a1f814b7e5a481a7f6b9e847540e93ff1d7bd8d51ad</SHA256>
+<SHA256>533132d62b94b6c7d1482fe8cfacce4fb437e47d4714f9a4fa2a714831921645</SHA256>
 </FILE>
 
 <!--
