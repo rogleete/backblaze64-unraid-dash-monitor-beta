@@ -2,7 +2,7 @@
 <!DOCTYPE PLUGIN [
 <!ENTITY name        "backblaze64-monitor-beta">
 <!ENTITY author      "rogman">
-<!ENTITY version     "2026.08.15-beta19">
+<!ENTITY version     "2026.08.15-beta20">
 <!ENTITY launch      "Utilities/backblaze64-monitor-beta">
 <!ENTITY github      "rogleete/backblaze64-unraid-dash-monitor-beta">
 <!ENTITY pluginURL   "https://raw.githubusercontent.com/&github;/main/backblaze64-monitor-beta.plg">
@@ -50,6 +50,23 @@ BETA build: dashboard tile for Backblaze64, now backed by its key-authenticated 
 
 <CHANGES>
 ### &version;
+- Found the actual root cause of the Current File spacing on a real
+  Dashboard tile, confirmed via getBoundingClientRect() measurements:
+  a 4px margin-top (confirmed applied via getComputedStyle) was
+  producing an ~18px real gap -- 14px more than intended, and not
+  reproducible in the Settings page's Live Preview at all despite
+  identical CSS and identical PHP-generated HTML. That pointed at
+  align-content redistributing space between wrapped flex lines when
+  the container has more cross-axis room than its content needs, which
+  a real dashboard tile's height constraints can trigger and a preview
+  box never does -- no margin value could have fixed that, since it
+  isn't a margin problem. Restructured Current File to render as its
+  own sibling block after the Scan Progress/Backup Total row instead of
+  a third item wrapped inside that row's flex container, so its
+  spacing is a plain, deterministic block margin that can't be
+  redistributed by any flex ancestor's line-spacing behavior
+
+### 2026.08.15-beta19
 - Fixed the real causes of the Current File spacing/alignment issues,
   found after comparing the Dashboard tile against the Settings live
   preview (which looked correct while the Dashboard tile didn't -- that
@@ -344,7 +361,7 @@ PACKAGE INSTALLATION
 -->
 <FILE Name="&pluginLOC;/&packageFile;" Run="upgradepkg --install-new">
 <URL>&packageURL;</URL>
-<SHA256>533132d62b94b6c7d1482fe8cfacce4fb437e47d4714f9a4fa2a714831921645</SHA256>
+<SHA256>239ef60a0aa8599c4cb6b54ec8195972258e10ae4bdc64e1961242ad1ca6b549</SHA256>
 </FILE>
 
 <!--
