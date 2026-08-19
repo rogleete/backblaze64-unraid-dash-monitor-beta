@@ -2,7 +2,7 @@
 <!DOCTYPE PLUGIN [
 <!ENTITY name        "backblaze64-monitor-beta">
 <!ENTITY author      "rogman">
-<!ENTITY version     "2026.08.15-beta14">
+<!ENTITY version     "2026.08.15-beta15">
 <!ENTITY launch      "Utilities/backblaze64-monitor-beta">
 <!ENTITY github      "rogleete/backblaze64-unraid-dash-monitor-beta">
 <!ENTITY pluginURL   "https://raw.githubusercontent.com/&github;/main/backblaze64-monitor-beta.plg">
@@ -50,6 +50,15 @@ BETA build: dashboard tile for Backblaze64, now backed by its key-authenticated 
 
 <CHANGES>
 ### &version;
+- Fixed excess vertical spacing before the Current File line -- it
+  looked like two blank lines between "Scanning/Backup" and the
+  filename below. The row2 container used a single "gap" value that
+  applied to both the horizontal spacing between items on the same
+  line and the vertical spacing between wrapped lines; split those
+  apart (row-gap vs column-gap) so wrapping onto its own line stays
+  tight instead of inheriting the wider horizontal spacing value
+
+### 2026.08.15-beta14
 - Fixed Current File showing nothing even with a file actively
   transferring and read:files enabled: the field mapping in beta13 was
   a guess at an API shape that turned out not to exist. Checked against
@@ -287,7 +296,7 @@ PACKAGE INSTALLATION
 -->
 <FILE Name="&pluginLOC;/&packageFile;" Run="upgradepkg --install-new">
 <URL>&packageURL;</URL>
-<SHA256>4f442c661ded13f5d7080c85af9019611347a1828d61555e3f6201dca454a92a</SHA256>
+<SHA256>5bc6dd4bf180e11f620048d440c7b6898031fe839099e951039b733223d481fc</SHA256>
 </FILE>
 
 <!--
